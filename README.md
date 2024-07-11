@@ -1,3 +1,3 @@
 # Learning Go
 
-Everything I was learned about Go basics.
+Everything I've ever learned about Go basics.

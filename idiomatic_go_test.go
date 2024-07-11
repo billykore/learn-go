@@ -999,3 +999,66 @@ func TestUnsafeInts(t *testing.T) {
 
 	runtime.KeepAlive(s)
 }
+
+type Stack[T comparable] struct {
+	vals []T
+}
+
+func (s *Stack[T]) Push(val T) {
+	s.vals = append(s.vals, val)
+}
+
+func (s *Stack[T]) Pop() (T, bool) {
+	if len(s.vals) == 0 {
+		var zero T
+		return zero, false
+	}
+	top := s.vals[len(s.vals)-1]
+	s.vals = s.vals[:len(s.vals)-1]
+	return top, true
+}
+
+func (s *Stack[T]) Contains(val T) bool {
+	for _, v := range s.vals {
+		if v == val {
+			return true
+		}
+	}
+	return false
+}
+
+func TestGenericStack(t *testing.T) {
+	var s Stack[int]
+	s.Push(10)
+	s.Push(20)
+	s.Push(30)
+	t.Log(s)
+	v, ok := s.Pop()
+	t.Log(v, ok)
+	t.Log(s.Contains(10))
+	t.Log(s.Contains(5))
+
+	var s2 Stack[string]
+	s2.Push("Oyen")
+	s2.Push("Ciko")
+	s2.Push("Snowie")
+	t.Log(s2)
+	v2, ok := s2.Pop()
+	t.Log(v2, ok)
+	t.Log(s2.Contains("Oyen"))
+	t.Log(s2.Contains("Kore"))
+}
+
+type Integer interface {
+	int | int8 | int16 | int32 | int64
+}
+
+func Convert[T1, T2 Integer](in T1) T2 {
+	return T2(in)
+}
+
+func TestCovert(t *testing.T) {
+	var a int = 10
+	b := Convert[int, int64](a)
+	t.Log(b)
+}
