@@ -39,3 +39,7 @@ func (l *todoList) completeTodo(id int) {
 		}
 	}
 }
+
+func (l *todoList) reset() {
+	l.todos = []*todo{}
+}

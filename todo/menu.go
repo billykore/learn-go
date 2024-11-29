@@ -26,7 +26,8 @@ Select an option:
   1. Display Todo List
   2. Add Todo
   3. Delete Todo
-  4. Complete Todo1
+  4. Complete Todo
+  5. Reset
   0. Exit
 `
 
@@ -62,6 +63,10 @@ func (m *menu) useOption(option string) {
 		break
 	case "4":
 		m.completeTodoOption()
+		break
+	case "5":
+		m.resetOption()
+		break
 	case "0":
 		m.exitOption()
 		break
@@ -118,6 +123,10 @@ func (m *menu) getInput(title string) (string, error) {
 		return "", fmt.Errorf("error reading input %s: %v", title, err)
 	}
 	return scanner.Text(), nil
+}
+
+func (m *menu) resetOption() {
+	m.todoList.reset()
 }
 
 func (m *menu) exitOption() {
